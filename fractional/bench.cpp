@@ -1,16 +1,18 @@
 #include <benchmark/benchmark.h>
+#include <numeric>
+
 #include "fractional.h"
 
 void BM_ref_gcd (benchmark::State& state) {
     for (auto _ : state) {
-        benchmark::DoNotOptimize(reference_gcd(state.range(0), 321));
+        benchmark::DoNotOptimize(details::gcd < std::int64_t > (state.range(0), 321));
         benchmark::ClobberMemory();
     }
 }
 
 void BM_binary_gcd(benchmark::State& state) {
     for (auto _ : state) {
-        benchmark::DoNotOptimize(binary_gcd(state.range(0), 321));
+        benchmark::DoNotOptimize(details::gcd < std::uint64_t > (state.range(0), 321));
         benchmark::ClobberMemory();
     }
 }
